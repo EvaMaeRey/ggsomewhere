@@ -22,11 +22,11 @@ The approach makes use of ggplot2's sf plotting capabilities, the sf2stat packag
 
 ## Fully worked example...
 
-How you'd use sf2stat to build functionality with scope, region type, and location name 
+How you'd use sf2stat to build functionality with scope, region type, and location name.  When using the code templates for this north carolina county example, we'll be replacing 'scope', 'region', and 'locations' as follows
 
-scope -> northcarolina
-region -> county
-location -> vector of region ids
+- 'scope' -> 'northcarolina'
+- 'region' -> 'county'
+- 'locations' -> a vector of region names
 
 Let's see how we might recreate the functionality in the ggnorthcarolina package using some templates in this readme.
 
