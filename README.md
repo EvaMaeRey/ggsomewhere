@@ -322,4 +322,12 @@ nc |>
   stamp_county_ashe(fill = "darkred")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/last_test-1.png)<!-- -->
+
+``` r
+
+last_plot() + 
+  stamp_county_label_ashe(color = "oldlace")
+```
+
+![](README_files/figure-gfm/last_test-2.png)<!-- -->

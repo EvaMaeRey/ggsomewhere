@@ -265,7 +265,7 @@ stamp_region_label_location <- function(...){stamp_region_label(keep_id = 'Locat
 
 ### Try it out
 
-```{r}
+```{r last_test}
 source("./R/stamp_county_location.R")
 
 nc |>
@@ -274,4 +274,7 @@ nc |>
   aes(fips = FIPS) + 
   stamp_county() + 
   stamp_county_ashe(fill = "darkred")
+
+last_plot() + 
+  stamp_county_label_ashe(color = "oldlace")
 ```
