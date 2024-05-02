@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The goal of ggsomewhere (and it's github repository) is to provide tools for building spatial ggplot2 extensions.
 
-The approach makes use of ggplot2's sf plotting capabilities, the sf2stat package to prepare reference data for use inside a stat_* or geom_* layer, and the readme2pkg package functions for managing functions from a readme and working with template functions included in the readme.
+The approach makes use of ggplot2's sf plotting capabilities, the sf2stat package to prepare reference data for use inside a stat_* or geom_* layer, and the knitrExtra package functions for managing functions from a readme and working with template functions included in the readme.
 
 ## Fully worked example...
 
@@ -32,7 +32,7 @@ Let's see how we might recreate the functionality in the ggnorthcarolina package
 
 In the example, the scope of the package is 'northcarolina'.  The region of interest is 'county', and the location names that we are using are the county names.
 
-##
+## Create package architecture
 
 ```{r, eval = F}
 devtools::create(".")
@@ -40,7 +40,7 @@ devtools::create(".")
 
 ## Step 00. prep reference data
 
-### Create 
+### Create raw data folder 
 
 ```{r, eval = F}
 usethis::use_data_raw()
@@ -67,14 +67,14 @@ usethis::use_data(geo_reference_northcarolina_county, overwrite = T)
 
 
 ```{r, eval = F}
-readme2pkg::chunk_to_dir("nc_geo_reference_prep", 
+knitrExtra:::chunk_to_dir("nc_geo_reference_prep", 
                          dir = "data-raw/")
 ```
 
 ## Use template to create `stat_county()` functionality
 
 ```{r}
-readme2pkg::chunk_variants_to_dir(chunk_name = "stat_region_template",
+knitrExtra:::chunk_variants_to_dir(chunk_name = "stat_region_template",
                                   file_name = "stat_county.R",
                                   replace1 = "scope",
                                   replacements1 = "northcarolina",
@@ -162,7 +162,7 @@ nc |>
 ## Use template to create useful derivitive functions
 
 ```{r}
-readme2pkg::chunk_variants_to_dir(chunk_name = "geom_region_template",
+knitrExtra:::chunk_variants_to_dir(chunk_name = "geom_region_template",
                                   file_name = "geom_county.R",
                                   replace1 = "region",
                                   replacements1 = "county")
@@ -229,7 +229,7 @@ locations <- geo_reference_northcarolina_county$county_name
 locations_snake <- tolower(locations) |> 
   stringr::str_replace_all(" ", "_")
 
-readme2pkg::chunk_variants_to_dir(chunk_name = "stamp_region_location", 
+knitrExtra:::chunk_variants_to_dir(chunk_name = "stamp_region_location", 
                                   file_name = "stamp_county_location.R",
                                   replace1 = "region",
                                   replacements1 = rep("county", length(locations)),

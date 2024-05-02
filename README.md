@@ -12,7 +12,7 @@ for building spatial ggplot2 extensions.
 
 The approach makes use of ggplot2’s sf plotting capabilities, the
 sf2stat package to prepare reference data for use inside a stat\_\* or
-geom\_\* layer, and the readme2pkg package functions for managing
+geom\_\* layer, and the knitrExtra package functions for managing
 functions from a readme and working with template functions included in
 the readme.
 
@@ -34,7 +34,7 @@ In the example, the scope of the package is ‘northcarolina’. The region
 of interest is ‘county’, and the location names that we are using are
 the county names.
 
-## 
+## Create package architecture
 
 ``` r
 devtools::create(".")
@@ -42,7 +42,7 @@ devtools::create(".")
 
 ## Step 00. prep reference data
 
-### Create
+### Create raw data folder
 
 ``` r
 usethis::use_data_raw()
@@ -62,7 +62,7 @@ string that will replace region in the
 ``` r
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
 #> Reading layer `nc' from data source 
-#>   `/Library/Frameworks/R.framework/Versions/4.2/Resources/library/sf/shape/nc.shp' 
+#>   `/Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/sf/shape/nc.shp' 
 #>   using driver `ESRI Shapefile'
 #> Simple feature collection with 100 features and 14 fields
 #> Geometry type: MULTIPOLYGON
@@ -91,19 +91,20 @@ usethis::use_data(geo_reference_northcarolina_county, overwrite = T)
 ```
 
 ``` r
-readme2pkg::chunk_to_dir("nc_geo_reference_prep", 
+knitrExtra:::chunk_to_dir("nc_geo_reference_prep", 
                          dir = "data-raw/")
 ```
 
 ## Use template to create `stat_county()` functionality
 
 ``` r
-readme2pkg::chunk_variants_to_dir(chunk_name = "stat_region_template",
+knitrExtra:::chunk_variants_to_dir(chunk_name = "stat_region_template",
                                   file_name = "stat_county.R",
                                   replace1 = "scope",
                                   replacements1 = "northcarolina",
                                   replace2 = "region",
                                   replacements2 = "county")
+#> It seems you are currently knitting a Rmd/Qmd file. The parsing of the file will be done in a new R session.
 ```
 
 ``` r
@@ -170,7 +171,7 @@ library(ggplot2)
 
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
 #> Reading layer `nc' from data source 
-#>   `/Library/Frameworks/R.framework/Versions/4.2/Resources/library/sf/shape/nc.shp' 
+#>   `/Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/sf/shape/nc.shp' 
 #>   using driver `ESRI Shapefile'
 #> Simple feature collection with 100 features and 14 fields
 #> Geometry type: MULTIPOLYGON
@@ -192,10 +193,11 @@ nc |>
 ## Use template to create useful derivitive functions
 
 ``` r
-readme2pkg::chunk_variants_to_dir(chunk_name = "geom_region_template",
+knitrExtra:::chunk_variants_to_dir(chunk_name = "geom_region_template",
                                   file_name = "geom_county.R",
                                   replace1 = "region",
                                   replacements1 = "county")
+#> It seems you are currently knitting a Rmd/Qmd file. The parsing of the file will be done in a new R session.
 ```
 
 ``` r
@@ -277,7 +279,7 @@ locations <- geo_reference_northcarolina_county$county_name
 locations_snake <- tolower(locations) |> 
   stringr::str_replace_all(" ", "_")
 
-readme2pkg::chunk_variants_to_dir(chunk_name = "stamp_region_location", 
+knitrExtra:::chunk_variants_to_dir(chunk_name = "stamp_region_location", 
                                   file_name = "stamp_county_location.R",
                                   replace1 = "region",
                                   replacements1 = rep("county", length(locations)),
